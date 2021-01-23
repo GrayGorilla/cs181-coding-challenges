@@ -75,6 +75,28 @@ Control.Print.printLength := 20;
 
 (**** PUT PROBLEMS 1-8 HERE ****)
 
+(* 1 *)
+fun make_silly_json (i: int) = 
+  if i = 0 then Array [Null]
+  else
+    let
+      val myJson = Object [
+        ("n", Num (int_to_real i)),
+        ("b", True)
+      ];
+      fun appendArray(item, arr) =
+        case arr of
+            Array [Null] => Array [item]
+          | Array a => Array (item :: a)
+          | _ => False
+        ;
+      ;
+    in
+      appendArray(myJson, make_silly_json(i - 1))
+    end
+;
+
+
 (* histogram and historgram_for_field are provided, but they use your 
    count_occurrences and string_values_for_field, so uncomment them 
    after doing earlier problems *)
