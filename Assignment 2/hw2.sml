@@ -196,6 +196,7 @@ fun string_values_for_field (target, jsonLst) =
         | _ => string_values_for_field (target, tail)
     )
   ;
+;
 
 (* histogram and historgram_for_field are provided, but they use your 
    count_occurrences and string_values_for_field, so uncomment them 
@@ -224,6 +225,23 @@ fun histogram_for_field (f,js) =
 
 
 (**** PUT PROBLEMS 9-11 HERE ****)
+
+(* 9 *)
+fun filter_field_value (ky, vl, jsonLst) =
+  case jsonLst of
+      [] => []
+    | (obj :: tail) => (
+      case dot (obj, ky) of
+          SOME (String s) => (
+            if s = vl
+            then (obj :: filter_field_value(ky, vl, tail))
+            else filter_field_value(ky, vl, tail)
+          )
+        | _ => filter_field_value(ky, vl, tail)
+    )
+  ;
+;
+
 
 ;Control.Print.printDepth := 3;
 Control.Print.printLength := 3;
