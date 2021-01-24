@@ -26,9 +26,9 @@ val test3 = case dot (json_obj, "ok") of SOME True => true |  _ => false
 
 val test4 = one_fields json_obj = rev ["foo","bar","ok"]
 
-(* 
 val test5 = not (no_repeats ["foo","bar","foo"])
 
+(* 
 val nest = Array [Object [],
                   Object[("a",True),
                          ("b",Object[("foo",True),

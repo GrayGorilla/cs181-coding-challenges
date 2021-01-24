@@ -129,6 +129,9 @@ fun one_fields (j) =
   end
 ;
 
+(* 5 *)
+fun no_repeats (strLst: string list) = if length(strLst) = length(dedup(strLst)) then true else false;
+
 
 (* histogram and historgram_for_field are provided, but they use your 
    count_occurrences and string_values_for_field, so uncomment them 
