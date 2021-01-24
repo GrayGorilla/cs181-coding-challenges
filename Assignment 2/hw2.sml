@@ -99,12 +99,12 @@ fun make_silly_json (i: int) =
 (* 2 *)
 fun assoc (k, xs) =
   case xs of 
-      [] => NONE
-    | ((k1, v1) :: xs') => (
-      if k1 = k 
-      then SOME (v1)
-      else assoc (k, xs')
-    )
+      ((k1, v1) :: xs') => (
+        if k1 = k 
+        then SOME (v1)
+        else assoc (k, xs')
+      )
+    | _ => NONE
   ;
 ;
 
