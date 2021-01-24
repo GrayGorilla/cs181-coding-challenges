@@ -132,6 +132,32 @@ fun one_fields (j) =
 (* 5 *)
 fun no_repeats (strLst: string list) = if length(strLst) = length(dedup(strLst)) then true else false;
 
+(* 6 *)
+fun recursive_no_field_repeats (j) =
+  let
+    fun arr_aux (a) =
+      case a of
+          [] => true
+        | (head :: tail) => (recursive_no_field_repeats (head) andalso arr_aux (tail))
+      ;
+    ;
+    fun obj_aux (j) = 
+      case j of
+          [] => true
+        | ((_, v) :: tail) => (recursive_no_field_repeats (v) andalso obj_aux (tail))
+    ;
+  in
+    case j of
+        Num _ => true
+      | String _ => true
+      | False => true
+      | True => true
+      | Null => true
+      | Array arr => arr_aux (arr)
+      | Object obj => (no_repeats (one_fields (Object obj)) andalso obj_aux(obj))
+  end
+;
+
 
 (* histogram and historgram_for_field are provided, but they use your 
    count_occurrences and string_values_for_field, so uncomment them 

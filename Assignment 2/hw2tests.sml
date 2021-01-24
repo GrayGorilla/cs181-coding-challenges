@@ -28,7 +28,6 @@ val test4 = one_fields json_obj = rev ["foo","bar","ok"]
 
 val test5 = not (no_repeats ["foo","bar","foo"])
 
-(* 
 val nest = Array [Object [],
                   Object[("a",True),
                          ("b",Object[("foo",True),
@@ -37,6 +36,7 @@ val nest = Array [Object [],
                   Object []]
 
 val test6 = not (recursive_no_field_repeats nest)
+(* 
 
  (* any order is okay, so it's okay to fail this test due to order *)
 val test7a = count_occurrences (["a", "a", "b"], Fail "") = [("b",1),("a",2)]
