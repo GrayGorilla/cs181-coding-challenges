@@ -108,6 +108,14 @@ fun assoc (k, xs) =
   ;
 ;
 
+(* 3 *)
+fun dot (j, f) =
+  case j of
+      Object obj => assoc(f, obj)
+    | _ => NONE
+  ;
+;
+
 (* histogram and historgram_for_field are provided, but they use your 
    count_occurrences and string_values_for_field, so uncomment them 
    after doing earlier problems *)
