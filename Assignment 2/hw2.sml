@@ -186,6 +186,17 @@ fun count_occurrences (lst, expn) =
   end
 ;
 
+(* 8 *)
+fun string_values_for_field (target, jsonLst) =
+  case jsonLst of
+      [] => []
+    | (obj :: tail) => (
+      case dot (obj, target) of
+          SOME (String s) => (s :: string_values_for_field (target, tail))
+        | _ => string_values_for_field (target, tail)
+    )
+  ;
+
 (* histogram and historgram_for_field are provided, but they use your 
    count_occurrences and string_values_for_field, so uncomment them 
    after doing earlier problems *)

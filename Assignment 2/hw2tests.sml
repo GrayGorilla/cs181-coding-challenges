@@ -43,11 +43,11 @@ val test7a = count_occurrences (["a", "a", "b"], Fail "") = [("b",1),("a",2)]
 val test7b = count_occurrences (["b", "a", "b"], Fail "") = []
              handle (Fail "") => true
 
-(* 
 val test8 = string_values_for_field ("x", [Object [("a", True),("x", String "foo")],
                                            Object [("x", String "bar"), ("b", True)]])
             = ["foo","bar"]
 
+(* 
 val test9 = 
     case filter_field_value ("x", "foo",
                              [Object [("x", String "foo"), ("y", String "bar")],
