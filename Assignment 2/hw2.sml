@@ -116,6 +116,20 @@ fun dot (j, f) =
   ;
 ;
 
+(* 4 *)
+fun one_fields (j) =
+  let
+    fun aux (j, acc) =
+      case j of
+        Object ((k1, v1) :: tail) => aux(Object tail, k1 :: acc)
+        | _ => acc
+    ;
+  in
+    aux (j, [])
+  end
+;
+
+
 (* histogram and historgram_for_field are provided, but they use your 
    count_occurrences and string_values_for_field, so uncomment them 
    after doing earlier problems *)
