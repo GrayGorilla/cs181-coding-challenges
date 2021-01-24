@@ -84,7 +84,7 @@ fun make_silly_json (i: int) =
         ("n", Num (int_to_real i)),
         ("b", True)
       ];
-      fun appendArray(item, arr) =
+      fun appendArray (item, arr) =
         case arr of
             Array [Null] => Array [item]
           | Array a => Array (item :: a)
@@ -92,16 +92,16 @@ fun make_silly_json (i: int) =
         ;
       ;
     in
-      appendArray(myJson, make_silly_json(i - 1))
+      appendArray (myJson, make_silly_json (i - 1))
     end
 ;
 
 (* 2 *)
 fun assoc (k, xs) =
   case xs of 
-      ((k1, v1) :: xs') => (
-        if k1 = k 
-        then SOME (v1)
+      ((key, vl) :: xs') => (
+        if key = k 
+        then SOME vl
         else assoc (k, xs')
       )
     | _ => NONE
@@ -111,7 +111,7 @@ fun assoc (k, xs) =
 (* 3 *)
 fun dot (j, f) =
   case j of
-      Object obj => assoc(f, obj)
+      Object obj => assoc (f, obj)
     | _ => NONE
   ;
 ;
@@ -121,7 +121,7 @@ fun one_fields (j) =
   let
     fun aux (j, acc) =
       case j of
-        Object ((k1, v1) :: tail) => aux(Object tail, k1 :: acc)
+        Object ((k, _) :: tail) => aux(Object tail, k :: acc)
         | _ => acc
     ;
   in
@@ -148,13 +148,9 @@ fun recursive_no_field_repeats (j) =
     ;
   in
     case j of
-        Num _ => true
-      | String _ => true
-      | False => true
-      | True => true
-      | Null => true
-      | Array arr => arr_aux (arr)
+        Array arr => arr_aux (arr)
       | Object obj => (no_repeats (one_fields (Object obj)) andalso obj_aux(obj))
+      | _ => true
   end
 ;
 
@@ -180,7 +176,7 @@ fun count_occurrences (lst, expn) =
     fun aux_in (inLst, outLst) =
       case inLst of
           [] => outLst
-        | (head :: tail) => aux_in (tail, aux_out(head, outLst))
+        | (head :: tail) => aux_in (tail, aux_out (head, outLst))
       ;
     ;
   in
