@@ -158,6 +158,37 @@ fun recursive_no_field_repeats (j) =
   end
 ;
 
+(* 7 *)
+fun count_occurrences (lst, expn) = 
+  let
+    fun in_order (lst) = 
+      case lst of
+          (first :: second :: tail) => ((strcmp (first, second) <> GREATER)
+            andalso in_order (second :: tail))
+        | _ => true
+      ;
+    ;
+    fun aux_out (item, outLst) = 
+      case outLst of
+          [] => (item, 1) :: outLst
+        | ((str, cnt) :: tail) => (
+          if item = str 
+          then (str, cnt + 1) :: tail
+          else aux_out (item, tail) @ outLst)
+      ;
+    ;
+    fun aux_in (inLst, outLst) =
+      case inLst of
+          [] => outLst
+        | (head :: tail) => aux_in (tail, aux_out(head, outLst))
+      ;
+    ;
+  in
+    if in_order (lst)
+    then aux_in (lst, [])
+    else raise expn
+  end
+;
 
 (* histogram and historgram_for_field are provided, but they use your 
    count_occurrences and string_values_for_field, so uncomment them 
