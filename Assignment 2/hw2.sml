@@ -60,14 +60,14 @@ Control.Print.printLength := 3;
 use "parsed_small_police.sml";
 use "parsed_medium_police.sml";
 
-(* (* uncomment when you are ready to do the problems needing the large report*)
+(* uncomment when you are ready to do the problems needing the large report *)
 use "parsed_large_police.sml"; 
 
 val large_incident_reports_list =
     case large_incident_reports of
         Array js => js
       | _ => raise (Fail "expected large_incident_reports to be an array")
-*)
+
 
 (* Now make SML print more again so that we can see what we're working with. *)
 ; Control.Print.printDepth := 20;
@@ -198,7 +198,7 @@ fun string_values_for_field (target, jsonLst) =
   ;
 ;
 
-(* histogram and historgram_for_field are provided, but they use your 
+(* histogram and histogram_for_field are provided, but they use your 
    count_occurrences and string_values_for_field, so uncomment them 
    after doing earlier problems *)
 
@@ -242,11 +242,28 @@ fun filter_field_value (ky, vl, jsonLst) =
   ;
 ;
 
+(* 10 *)
+val large_event_clearance_description_histogram = histogram_for_field ("event_clearance_description", large_incident_reports_list);
+
+(* 11 *)
+val large_hundred_block_location_histogram = histogram_for_field ("hundred_block_location", large_incident_reports_list);
 
 ;Control.Print.printDepth := 3;
 Control.Print.printLength := 3;
 
 (**** PUT PROBLEMS 12-15 HERE ****)
+
+(* 12 *)
+val forty_third_and_the_ave_reports = filter_field_value ("hundred_block_location", "43XX BLOCK OF UNIVERSITY WAY NE", large_incident_reports_list);
+
+(* 13 *)
+val forty_third_and_the_ave_event_clearance_description_histogram = histogram_for_field ("event_clearance_description", forty_third_and_the_ave_reports);
+
+(* 14 *)
+val nineteenth_and_forty_fifth_reports = filter_field_value ("hundred_block_location", "45XX BLOCK OF 19TH AVE NE", large_incident_reports_list);
+
+(* 15 *)
+val nineteenth_and_forty_fifth_event_clearance_description_histogram = histogram_for_field ("event_clearance_description", nineteenth_and_forty_fifth_reports);
 
 ;Control.Print.printDepth := 20;
 Control.Print.printLength := 20;
@@ -254,4 +271,3 @@ Control.Print.printLength := 20;
 (**** PUT PROBLEMS 16-19 HERE ****)
 
 (* For CHALLENGE PROBLEMS, see hw2challenge.sml *)
-
