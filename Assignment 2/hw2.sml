@@ -203,7 +203,7 @@ fun string_values_for_field (target, jsonLst) =
 
 (* histogram_for_field takes a field name f and a list of objects js and 
    returns counts for how often a string is the contents of f in js. *)
-(*
+
 exception SortIsBroken
 
 fun histogram (xs : string list) : (string * int) list =
@@ -221,7 +221,7 @@ fun histogram (xs : string list) : (string * int) list =
 
 fun histogram_for_field (f,js) =
   histogram (string_values_for_field (f, js))
-*)
+
 
 (**** PUT PROBLEMS 9-11 HERE ****)
 
