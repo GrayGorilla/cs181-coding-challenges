@@ -272,6 +272,10 @@ fun concat_with (sep, strLst) =
 (* 17 *)
 fun quote_string str = "\"" ^ str ^ "\"";
 
+(* 18 *)
+fun real_to_string_for_json num = 
+  if real_is_negative (num) then "-" ^ real_to_string (real_abs (num)) else real_to_string (num)
+;
 
 (* For CHALLENGE PROBLEMS, see hw2challenge.sml *)
 

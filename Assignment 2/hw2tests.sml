@@ -63,9 +63,9 @@ val test16 = concat_with("a",["b","n","na"]) = "banana"
 
 val test17 = quote_string "foo" = "\"foo\""
 
-(* 
 val test18 = real_to_string_for_json ~4.305 = "-4.305"
 
+(* 
 val test19 = json_to_string json_obj = 
              "{\"foo\" : 3.14159, \"bar\" : [1.0, \"world\", null], \"ok\" : true}"
 *)
