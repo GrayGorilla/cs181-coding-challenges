@@ -269,5 +269,9 @@ fun concat_with (sep, strLst) =
   end
 ;
 
+(* 17 *)
+fun quote_string str = "\"" ^ str ^ "\"";
+
+
 (* For CHALLENGE PROBLEMS, see hw2challenge.sml *)
 
