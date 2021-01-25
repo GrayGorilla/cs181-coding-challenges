@@ -253,5 +253,21 @@ Control.Print.printLength := 20;
 
 (**** PUT PROBLEMS 16-19 HERE ****)
 
+(* 16 *)
+fun concat_with (sep, strLst) =
+  let
+    fun concat_aux (sep, sLstAx, acc) =
+      case sLstAx of
+          [] => acc
+        | (head :: tail) => concat_aux (sep, tail, acc ^ sep ^ head)
+      ;
+    ;
+  in
+    case strLst of
+        [] => ""
+      | (head :: tail) => concat_aux (sep, tail, head)
+  end
+;
+
 (* For CHALLENGE PROBLEMS, see hw2challenge.sml *)
 
