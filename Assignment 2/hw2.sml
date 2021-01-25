@@ -270,4 +270,53 @@ Control.Print.printLength := 20;
 
 (**** PUT PROBLEMS 16-19 HERE ****)
 
+(* 16 *)
+fun concat_with (sep, strLst) =
+  let
+    fun concat_aux (sep, sLstAx, acc) =
+      case sLstAx of
+          [] => acc
+        | (head :: tail) => concat_aux (sep, tail, acc ^ sep ^ head)
+      ;
+    ;
+  in
+    case strLst of
+        [] => ""
+      | (head :: tail) => concat_aux (sep, tail, head)
+  end
+;
+
+(* 17 *)
+fun quote_string str = "\"" ^ str ^ "\"";
+
+(* 18 *)
+fun real_to_string_for_json num = 
+  if real_is_negative (num) then "-" ^ real_to_string (real_abs (num)) else real_to_string (num)
+;
+
+(* 19 *)
+fun json_to_string js =
+  let
+    fun strListifyArray (arr, acc) = 
+      case arr of
+          [] => acc
+        | (head :: tail) => strListifyArray(tail, json_to_string (head) :: acc)
+    ;
+    fun strListifyObject (obj, acc) = 
+      case obj of 
+          [] => acc
+        | ((key, value) :: tail) => strListifyObject(tail, (quote_string(key) ^ " : " ^ json_to_string (value)) :: acc)
+    ;
+  in
+    case js of
+        Num n => real_to_string_for_json (n)
+      | String s => quote_string (s)
+      | False => "false"
+      | True => "true"
+      | Null => "null"
+      | Array arr => "[" ^ concat_with (", ", rev (strListifyArray (arr, []))) ^ "]"
+      | Object obj => "{" ^ concat_with (", ", rev (strListifyObject (obj, []))) ^ "}"
+  end
+;
+
 (* For CHALLENGE PROBLEMS, see hw2challenge.sml *)
