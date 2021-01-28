@@ -16,6 +16,8 @@ val json_hello = String "hello"
 val json_false = False
 val json_array = Array [Num 1.0, String "world", Null]
 val json_obj   = Object [("foo", json_pi), ("bar", json_array), ("ok", True)]
+val json_obj2 = Object [("hello", Num 5.0), ("good", Array [String "better", Num 3.0]), ("bye", False)];
+val json_obj3 = Object [("snowboard", Object [("one", Num 1.0), ("two", Array [String "one plus one"])]), ("fun", Array [String "excellent", False, Num 6.0])];
 
 (* some provided one-liners that use the standard library and/or some features
    we have not learned yet. (Only) the challenge problem will need more
@@ -243,10 +245,10 @@ fun filter_field_value (ky, vl, jsonLst) =
 ;
 
 (* 10 *)
-val large_event_clearance_description_histogram = histogram_for_field ("event_clearance_description", large_incident_reports_list);
+(* val large_event_clearance_description_histogram = histogram_for_field ("event_clearance_description", large_incident_reports_list); *)
 
 (* 11 *)
-val large_hundred_block_location_histogram = histogram_for_field ("hundred_block_location", large_incident_reports_list);
+(* val large_hundred_block_location_histogram = histogram_for_field ("hundred_block_location", large_incident_reports_list); *)
 
 ;Control.Print.printDepth := 3;
 Control.Print.printLength := 3;
@@ -256,14 +258,14 @@ Control.Print.printLength := 3;
 (* 12 *)
 val forty_third_and_the_ave_reports = filter_field_value ("hundred_block_location", "43XX BLOCK OF UNIVERSITY WAY NE", large_incident_reports_list);
 
-(* 13 *)
-val forty_third_and_the_ave_event_clearance_description_histogram = histogram_for_field ("event_clearance_description", forty_third_and_the_ave_reports);
+(* 13 *) 
+(* val forty_third_and_the_ave_event_clearance_description_histogram = histogram_for_field ("event_clearance_description", forty_third_and_the_ave_reports); *)
 
 (* 14 *)
 val nineteenth_and_forty_fifth_reports = filter_field_value ("hundred_block_location", "45XX BLOCK OF 19TH AVE NE", large_incident_reports_list);
 
 (* 15 *)
-val nineteenth_and_forty_fifth_event_clearance_description_histogram = histogram_for_field ("event_clearance_description", nineteenth_and_forty_fifth_reports);
+(* val nineteenth_and_forty_fifth_event_clearance_description_histogram = histogram_for_field ("event_clearance_description", nineteenth_and_forty_fifth_reports);  *)
 
 ;Control.Print.printDepth := 20;
 Control.Print.printLength := 20;
