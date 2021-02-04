@@ -33,3 +33,6 @@ datatype typ = AnythingT
              | DatatypeT of string
 
 (**** you can put all your code here ****)
+
+(* 1 *)
+fun only_lowercase strList = List.filter (fn str => Char.isLower (String.sub (str, 0))) strList;
