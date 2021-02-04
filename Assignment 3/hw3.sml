@@ -63,3 +63,6 @@ val longest_string3 = fn strList =>
 val longest_string4 = fn strList => 
     longest_string_helper (fn (a, b) => String.size a >= String.size b) strList
 ;
+
+(* 5 *)
+val longest_lowercase = longest_string1 o only_lowercase;
