@@ -50,3 +50,16 @@ fun longest_string2 strList =
         if String.size item >= String.size longest then item else longest
     ) "" strList
 ;
+
+(* 4 *)
+fun longest_string_helper isLonger strList = 
+    List.foldl (fn (item, longest) => if isLonger (item, longest) then item else longest) "" strList
+;
+
+val longest_string3 = fn strList => 
+    longest_string_helper (fn (a, b) => String.size a > String.size b) strList
+;
+
+val longest_string4 = fn strList => 
+    longest_string_helper (fn (a, b) => String.size a >= String.size b) strList
+;
