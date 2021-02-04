@@ -36,3 +36,10 @@ datatype typ = AnythingT
 
 (* 1 *)
 fun only_lowercase strList = List.filter (fn str => Char.isLower (String.sub (str, 0))) strList;
+
+(* 2 *)
+fun longest_string1 strList = 
+    List.foldl (fn (item, longest) => 
+        if String.size item > String.size longest then item else longest
+    ) "" strList
+;
