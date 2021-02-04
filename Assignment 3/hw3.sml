@@ -43,3 +43,10 @@ fun longest_string1 strList =
         if String.size item > String.size longest then item else longest
     ) "" strList
 ;
+
+(* 3 *)
+fun longest_string2 strList = 
+    List.foldl (fn (item, longest) => 
+        if String.size item >= String.size longest then item else longest
+    ) "" strList
+;
