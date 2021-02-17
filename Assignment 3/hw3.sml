@@ -66,3 +66,19 @@ val longest_string4 = fn strList =>
 
 (* 5 *)
 val longest_lowercase = longest_string1 o only_lowercase;
+
+(* 6 *)
+(* fun all_answers func lst = 
+    let
+        fun aux f xs acc = 
+            case xs of
+                []          =>  acc
+              | x :: xs'    =>  (case f x of
+                                    NONE    => NONE
+                                  | SOME y  => (case acc of SOME acc => aux f xs' SOME (acc @ y))
+                                )
+        ;
+    in
+        aux func lst SOME []
+    end
+; *)
