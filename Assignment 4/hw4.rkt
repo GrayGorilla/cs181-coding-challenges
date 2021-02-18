@@ -14,3 +14,9 @@
 ;; 2
 (define (string-append-map xs suffix)
   (map (lambda (x) (string-append x suffix)) xs))
+
+;; 3
+(define (list-nth-mod xs n)
+  (cond [(< n 0) (quote (error "list-nth-mod: negative number"))]
+        [(= (length xs) 0) (quote (error "list-nth-mod: empty list"))]
+        [#t (car (list-tail xs (remainder n (length xs))))]))
