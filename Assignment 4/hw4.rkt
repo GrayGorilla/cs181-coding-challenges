@@ -20,3 +20,17 @@
   (cond [(< n 0) (quote (error "list-nth-mod: negative number"))]
         [(= (length xs) 0) (quote (error "list-nth-mod: empty list"))]
         [#t (car (list-tail xs (remainder n (length xs))))]))
+
+;; 4
+(define (stream-for-k-steps s k)
+  (if (= k 0)
+      (list)
+      (cons (car (s)) (stream-for-k-steps (cdr (s)) (- k 1)))))
+
+;; 5
+(define funny-number-stream
+  (letrec ([f (lambda (x)
+                (if (= (remainder x 6) 0)
+                    (cons (- 0 x) (lambda () (f (+ x 1))))
+                    (cons x (lambda () (f (+ x 1))))))])
+    (lambda () (f 1))))
