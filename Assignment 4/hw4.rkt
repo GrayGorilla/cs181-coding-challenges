@@ -42,3 +42,9 @@
                     (cons "dan.jpg" (lambda () (f (+ x 1))))
                     (cons "dog.jpg" (lambda () (f (+ x 1))))))])
     (lambda () (f 0))))
+
+;; 7
+(define (stream-add-one s)
+  (letrec ([f (lambda (strm)
+                (cons (cons 1 (car (strm))) (lambda () (f (cdr (strm))))))])
+    (lambda () (f s))))
