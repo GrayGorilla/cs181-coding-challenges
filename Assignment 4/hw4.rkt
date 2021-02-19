@@ -48,3 +48,21 @@
   (letrec ([f (lambda (strm)
                 (cons (cons 1 (car (strm))) (lambda () (f (cdr (strm))))))])
     (lambda () (f s))))
+
+;; 8
+(define (cycle-lists xs ys)
+  (letrec ([f (lambda (n)
+                (cons (cons (list-nth-mod xs n) (list-nth-mod ys n)) (lambda () (f (+ n 1)))))])
+    (lambda () (f 0))))
+
+;; 9
+(define (cycle-lists-challenge xs ys)
+  (letrec ([f (lambda (i j)
+               (cond [(and (null? (list-tail xs (+ i 1))) (null? (list-tail ys (+ j 1))))
+                      (cons (cons (car (list-tail xs i)) (car (list-tail ys j))) (lambda () (f 0 0)))]
+                     [(null? (list-tail xs (+ i 1)))
+                      (cons (cons (car (list-tail xs i)) (car (list-tail ys j))) (lambda () (f 0 (+ j 1))))]
+                     [(null? (list-tail ys (+ j 1)))
+                      (cons (cons (car (list-tail xs i)) (car (list-tail ys j))) (lambda () (f (+ i 1) 0)))]
+                     [#t (cons (cons (car (list-tail xs i)) (car (list-tail ys j))) (lambda () (f (+ i 1) (+ j 1))))]))])
+    (lambda () (f 0 0))))
