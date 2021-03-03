@@ -23,7 +23,15 @@
 
 ;; Problem 1
 
-;; CHANGE (put your solutions here)
+(define (racketlist->mupllist rList)
+  (if (null? rList)
+      munit
+      (apair (car rList) (racketlist->mupllist (cdr rList)))))
+
+(define (mupllist->racketlist mList)
+  (if (ismunit mList)
+      null
+      (cons (first mList) (mupllist->racketlist (second mList)))))
 
 ;; Problem 2
 

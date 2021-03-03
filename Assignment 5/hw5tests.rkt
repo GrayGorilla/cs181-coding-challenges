@@ -25,6 +25,10 @@
                                    (list (int 10) (int 9) (int 15))))))
                  (list (int 10) (int 15))
                  "provided combined test using problems 1, 2, and 4")
+
+   ;; My tests
+   (check-equal? (eval-exp (racketlist->mupllist (list 1 2 3 4 5)) (apair 1 (apair 2 (apair 3 (apair 4 (apair 5 munit))))))
+                 "racketlist->mupllist test")
    ))
 
 (require rackunit/text-ui)
