@@ -36,6 +36,11 @@
                               (add (int 2) (var "x")))))
                  (int 10)
                  "mlet & isgrader expression test")
+   (check-equal? (eval-exp (mlet "doubleFunc" (fun null "x" (add (var "x") (var "x")))
+                  (call "doubleFunc" (int 2))))
+                 (int 4)
+                 "function call test")
+   
    ))
 
 (require rackunit/text-ui)

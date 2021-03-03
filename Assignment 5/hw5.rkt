@@ -59,6 +59,7 @@
                (error "MUPL addition applied to non-number")))]
         ;; CHANGE add more cases here
         [(int? e) e]
+        [(munit? e) e]
         [(isgreater? e)
          (let ([v1 (eval-under-env (isgreater-e1 e) env)]
                [v2 (eval-under-env (isgreater-e2 e) env)])
@@ -73,17 +74,46 @@
          (let ([v (eval-under-env (ifnz-e1 e) env)])
            (if (int? v)
                (if (= (int-num v) 0)
-                   (eval-under-env (ifnz-e3 e) env)   ; Ifnz body allows non-int expressions
-                   (eval-under-env (ifnz-e2 e) env))  ; Ifnz body allows non-int expressions
+                   (eval-under-env (ifnz-e3 e) env)   ; ifnz body allows non-int expressions
+                   (eval-under-env (ifnz-e2 e) env))  ; ifnz body allows non-int expressions
                (error "MUPL ifnz condition applied to non-number")))]
+        [(fun? e)
+         (let* ([name (fun-nameopt e)]
+                [param (fun-formal e)]
+                [newEnv (cons (cons name (closure env e)) env)])  ; fun body allows non-int expressions
+           (if (string? param)
+               (cond [(string? name) (closure newEnv e)]      ; regular function
+                     [(null? name) (closure env e)]           ; anonymous function
+                     [#t (error "MUPL function name binding must be a string or null")])
+               (error "MUPL function param binding applied to non-string")))]
         [(mlet? e)
-         (let* ([str (mlet-var e)]
-                [val (eval-under-env (mlet-e e) env)] ; Binding value allows non-int expressions
-                [newEnv (cons (cons str val) env)])
-           (if (string? str)
-               (eval-under-env (mlet-body e) newEnv)  ; Body allows non-int expressions
-               (error "MUPL mlet binding applied to non-string")))]              
-        
+         (let* ([name (mlet-var e)]
+                [valu (eval-under-env (mlet-e e) env)] ; letm binding value allows non-int expressions
+                [newEnv (cons (cons name valu) env)])
+           (if (string? name)
+               (eval-under-env (mlet-body e) newEnv)   ; letm body allows non-int expressions
+               (error "MUPL mlet binding applied to non-string")))]
+        [(call? e)
+         (let ([funcl (envlookup env (call-funexp e))]
+               [arg (call-actual e)])
+           (if (closure? funcl)
+               (let* ([lexEnv (closure-env funcl)]
+                      [fn (closure-fun funcl)]
+                      [param (fun-formal fn)]
+                      [newEnv (cons (cons param arg) lexEnv)])
+                 (eval-under-env (fun-body fn) newEnv))
+               (error (string-append "MUPL call '" (call-funexp e) "' is not a function"))))]
+        [(apair? e)
+         (let ([v1 (eval-under-env (apair-e1 e) env)]
+               [v2 (eval-under-env (apair-e2 e) env)])
+           (apair v1 v2))]
+        [(first? e) (if (pair? e)
+                        (eval-under-env (apair-e1 (first-e e)) env)
+                        (error "MUPL first applied to non-pair"))]
+        [(second? e) (if (pair? e)
+                         (eval-under-env (apair-e2 (second-e e)) env)
+                         (error "MUPL second applied to non-pair"))]
+        [(ismunit? e) (if (munit? (eval-under-env (ismunit-e e) env)) (int 1) (int 0))]
         [#t (error (format "bad MUPL expression: ~v" e))]))
 
 ;; Do NOT change
