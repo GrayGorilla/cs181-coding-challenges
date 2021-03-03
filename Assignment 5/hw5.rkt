@@ -25,7 +25,7 @@
 
 (define (racketlist->mupllist rList)
   (if (null? rList)
-      munit
+      (munit)
       (apair (car rList) (racketlist->mupllist (cdr rList)))))
 
 (define (mupllist->racketlist mList)
@@ -58,6 +58,32 @@
                        (int-num v2)))
                (error "MUPL addition applied to non-number")))]
         ;; CHANGE add more cases here
+        [(int? e) e]
+        [(isgreater? e)
+         (let ([v1 (eval-under-env (isgreater-e1 e) env)]
+               [v2 (eval-under-env (isgreater-e2 e) env)])
+           (if (and (int? v1)
+                    (int? v2))
+               (if (> (int-num v1)
+                      (int-num v2))
+                   (int 1)
+                   (int 0))
+               (error "MUPL isgreater applied to non-number")))]
+        [(ifnz? e)
+         (let ([v (eval-under-env (ifnz-e1 e) env)])
+           (if (int? v)
+               (if (= (int-num v) 0)
+                   (eval-under-env (ifnz-e3 e) env)   ; Ifnz body allows non-int expressions
+                   (eval-under-env (ifnz-e2 e) env))  ; Ifnz body allows non-int expressions
+               (error "MUPL ifnz condition applied to non-number")))]
+        [(mlet? e)
+         (let* ([str (mlet-var e)]
+                [val (eval-under-env (mlet-e e) env)] ; Binding value allows non-int expressions
+                [newEnv (cons (cons str val) env)])
+           (if (string? str)
+               (eval-under-env (mlet-body e) newEnv)  ; Body allows non-int expressions
+               (error "MUPL mlet binding applied to non-string")))]              
+        
         [#t (error (format "bad MUPL expression: ~v" e))]))
 
 ;; Do NOT change

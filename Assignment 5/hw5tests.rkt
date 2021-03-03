@@ -27,8 +27,15 @@
                  "provided combined test using problems 1, 2, and 4")
 
    ;; My tests
-   (check-equal? (eval-exp (racketlist->mupllist (list 1 2 3 4 5)) (apair 1 (apair 2 (apair 3 (apair 4 (apair 5 munit))))))
+   (check-equal? (eval-exp (racketlist->mupllist (list 1 2 3 4 5)) (apair 1 (apair 2 (apair 3 (apair 4 (apair 5 (munit)))))))
                  "racketlist->mupllist test")
+   (check-equal? (eval-exp
+                  (mlet "x" (add (int 2) (int 3))
+                        (ifnz (isgreater (var "x") (int 0))
+                              (add (int 4) (add (int 1) (var "x")))
+                              (add (int 2) (var "x")))))
+                 (int 10)
+                 "mlet & isgrader expression test")
    ))
 
 (require rackunit/text-ui)
