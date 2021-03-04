@@ -19,7 +19,7 @@
 (struct ismunit (e)     #:transparent) ;; if e1 is unit then 1 else 0
 
 ;; a closure is not in "source" programs; it is what functions evaluate to
-(struct closure (env fun) #:transparent) 
+(struct closure (env fun) #:transparent)
 
 ;; Problem 1
 
@@ -29,9 +29,9 @@
       (apair (car rList) (racketlist->mupllist (cdr rList)))))
 
 (define (mupllist->racketlist mList)
-  (if (ismunit mList)
+  (if (munit? mList)
       null
-      (cons (first mList) (mupllist->racketlist (second mList)))))
+      (cons (apair-e1 mList) (mupllist->racketlist (apair-e2 mList)))))
 
 ;; Problem 2
 
@@ -107,10 +107,10 @@
          (let ([v1 (eval-under-env (apair-e1 e) env)]
                [v2 (eval-under-env (apair-e2 e) env)])
            (apair v1 v2))]
-        [(first? e) (if (pair? e)
+        [(first? e) (if (apair? (first-e e))
                         (eval-under-env (apair-e1 (first-e e)) env)
                         (error "MUPL first applied to non-pair"))]
-        [(second? e) (if (pair? e)
+        [(second? e) (if (apair? (second-e e))
                          (eval-under-env (apair-e2 (second-e e)) env)
                          (error "MUPL second applied to non-pair"))]
         [(ismunit? e) (if (munit? (eval-under-env (ismunit-e e) env)) (int 1) (int 0))]
@@ -122,9 +122,13 @@
         
 ;; Problem 3
 
-(define (ifmunit e1 e2 e3) "CHANGE")
+(define (ifmunit e1 e2 e3) (if (munit? e1) e2 e3))
 
-(define (ifeq e1 e2 e3 e4) "CHANGE")
+(define (ifeq e1 e2 e3 e4)
+  (if (and (int? e1)
+           (int? e2))
+      (if (= (int-num e1) (int-num e2)) e3 e4)
+      (error "MUPL ifeq condition applied to a non-number")))
 
 ;; Problem 4
 
