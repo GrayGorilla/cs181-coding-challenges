@@ -18,11 +18,21 @@ class MyPiece < Piece
                [[0, 0], [0, -1], [0, -2], [0, 1], [0, 2]]],
                rotations([[0, 0], [1, 0], [0, -1]])]                    # Short L new piece
 
+  CheatPiece = [[[0, 0]]]
+
   # your enhancements here
 
   # class method to choose the next piece
   def self.next_piece (board)
-    MyPiece.new(All_My_Pieces.sample, board)
+    if board.isCheating
+      MyPiece.new(CheatPiece, board)
+    else
+      MyPiece.new(All_My_Pieces.sample, board)
+    end
+  end
+
+  def self.numCheatBlocks
+    CheatPiece[0].length
   end
 end
 
@@ -34,6 +44,7 @@ class MyBoard < Board
     @score = 0
     @game = game
     @delay = 500
+    @isCheating = false
   end
 
   # gets the next piece
@@ -58,6 +69,62 @@ class MyBoard < Board
     @delay = [@delay - 2, 80].max
   end
 
+  # moves the current piece down by one, if this is not possible stores the
+  # current piece and replaces it with a new one.
+  def run
+    ran = @current_block.drop_by_one
+    if !ran
+      store_current
+      if !game_over?
+        if @current_block.current_rotation.length == MyPiece.numCheatBlocks
+          @isCheating = false     # clears the users name of cheating
+        end
+          next_piece
+      end
+    end
+    @game.update_score
+    draw
+  end
+
+  # drops the piece to the lowest location in the currently occupied columns.
+  # Then replaces it with a new piece
+  # Change the score to reflect the distance dropped.
+  def drop_all_the_way
+    if @game.is_running?
+      ran = @current_block.drop_by_one
+      @current_pos.each{|block| block.remove}
+      while ran
+        @score += 1
+        ran = @current_block.drop_by_one
+      end
+      draw
+      store_current
+      if !game_over?
+        if @current_block.current_rotation.length == MyPiece.numCheatBlocks
+          @isCheating = false     # clears the users name of cheating
+        end
+          next_piece
+      end
+      @game.update_score
+      draw
+    end
+  end
+
+  def isCheating
+    @isCheating
+  end
+
+  def cheat
+    if @score >= 100 and !@isCheating
+      puts 'Cheat piece avaliable next turn'
+      @isCheating = true
+      @score -= 100
+    elsif @isCheating
+      puts 'You\'re already cheating'
+    else
+      puts 'You need a score of at least 100 to cheat'
+    end
+  end
 end
 
 class MyTetris < Tetris
@@ -94,5 +161,7 @@ class MyTetris < Tetris
     @root.bind('u', proc {2.times {@board.rotate_clockwise}})
     
     @root.bind('space', proc {@board.drop_all_the_way}) 
+
+    @root.bind('c', proc {@board.cheat})
   end
 end
